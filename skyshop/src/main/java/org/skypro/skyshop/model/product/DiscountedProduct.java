@@ -1,11 +1,13 @@
 package org.skypro.skyshop.model.product;
 
+import java.util.UUID;
+
 public class DiscountedProduct extends Product {
     private int basePrice;
     private int discountPercent;
 
-    public DiscountedProduct(String name, int price, int discountPercent) {
-        super(name);
+    public DiscountedProduct(UUID id, String name, int price, int discountPercent) {
+        super(id, name);
         if (price < 0) {
             throw new IllegalArgumentException("Введено неправильное название продукта!");
         }

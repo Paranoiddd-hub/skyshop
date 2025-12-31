@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,15 +26,23 @@ public class StorageService {
     }
 
     private void storageInitialization() {
-        productStorage.put(UUID.randomUUID(), new SimpleProduct(UUID.randomUUID(), "Курица", 500));
-        productStorage.put(UUID.randomUUID(), new SimpleProduct(UUID.randomUUID(), "Масло", 200));
-        productStorage.put(UUID.randomUUID(), new FixPriceProduct(UUID.randomUUID(), "Хлеб"));
-        productStorage.put(UUID.randomUUID(), new DiscountedProduct(UUID.randomUUID(), "Яйца", 100, 10));
-        productStorage.put(UUID.randomUUID(), new DiscountedProduct(UUID.randomUUID(), "Гречка", 100, 20));
-        productStorage.put(UUID.randomUUID(), new SimpleProduct(UUID.randomUUID(), "milk", 80));
+        Product chicken = new SimpleProduct(UUID.randomUUID(), "Курица", 500);
+        Product butter = new SimpleProduct(UUID.randomUUID(), "Масло", 200);
+        Product bread = new FixPriceProduct(UUID.randomUUID(), "Хлеб");
+        Product eggs = new DiscountedProduct(UUID.randomUUID(), "Яйца", 100, 10);
+        Product buckwheat = new DiscountedProduct(UUID.randomUUID(), "Гречка", 100, 20);
+        Product milk = new SimpleProduct(UUID.randomUUID(), "Молоко", 80);
+        Article breadArticle = new Article(UUID.randomUUID(), "Бородинский хлеб", "Ой вкусный хлеб прям вообще.");
+        Article chikenArticle = new Article(UUID.randomUUID(), "Курица - не птица", "Курица – не птица, Болгария – не заграница");
 
-        articleStorage.put(UUID.randomUUID(), new Article(UUID.randomUUID(), "Бородинский хлеб", "Ой вкусный хлеб прям вообще."));
-        articleStorage.put(UUID.randomUUID(), new Article(UUID.randomUUID(), "Курица - не птица", "Курица – не птица, Болгария – не заграница"));
+        productStorage.put(chicken.getId(), chicken);
+        productStorage.put(butter.getId(), butter);
+        productStorage.put(bread.getId(), bread);
+        productStorage.put(eggs.getId(), eggs);
+        productStorage.put(buckwheat.getId(), buckwheat);
+        productStorage.put(milk.getId(), milk);
+        articleStorage.put(breadArticle.getId(), breadArticle);
+        articleStorage.put(chikenArticle.getId(), chikenArticle);
     }
 
     public Collection<Product> getAllProducts() {
@@ -49,5 +58,9 @@ public class StorageService {
         collection.putAll(productStorage);
         collection.putAll(articleStorage);
         return collection.values();
+    }
+
+    public Optional<Product> getProductById(UUID id) {
+        return Optional.ofNullable(productStorage.get(id));
     }
 }
